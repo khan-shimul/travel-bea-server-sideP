@@ -21,13 +21,14 @@ async function server() {
 
         const database = client.db('travel_bea');
         const packageCollection = database.collection('packages');
+        const bookedCollection = database.collection('booked');
 
         // Find packages GET API
         app.get('/packages', async (req, res) => {
             const cursor = packageCollection.find({});
             const packages = await cursor.toArray();
             res.send(packages);
-        })
+        });
 
         // Find single package use id
         app.get('/packages/:id', async (req, res) => {
@@ -35,6 +36,20 @@ async function server() {
             const query = { _id: ObjectId(id) }
             const package = await packageCollection.findOne(query);
             res.send(package);
+        });
+
+        // Booked package POST API
+        app.post('/booked', async (req, res) => {
+            const bookedPackage = req.body.packaged;
+            const booked = await bookedCollection.insertOne(bookedPackage)
+            res.json(booked);
+        });
+
+        // Booked packages GET API
+        app.get('/booked', async (req, res) => {
+            const cursor = packageCollection.find({});
+            const bookedPackages = await cursor.toArray();
+            res.send(bookedPackages);
         })
 
         // Add package POST API
@@ -42,7 +57,7 @@ async function server() {
             const package = req.body.data;
             const result = await packageCollection.insertOne(package);
             res.json(result);
-        })
+        });
     }
     finally {
         // await client.close();
