@@ -41,13 +41,13 @@ async function server() {
         // Booked package POST API
         app.post('/booked', async (req, res) => {
             const bookedPackage = req.body.packaged;
-            const booked = await bookedCollection.insertOne(bookedPackage)
+            const booked = await bookedCollection.insertOne(bookedPackage);
             res.json(booked);
         });
 
         // Booked packages GET API
         app.get('/booked', async (req, res) => {
-            const cursor = packageCollection.find({});
+            const cursor = bookedCollection.find({});
             const bookedPackages = await cursor.toArray();
             res.send(bookedPackages);
         })
