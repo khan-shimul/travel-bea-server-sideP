@@ -33,7 +33,7 @@ async function server() {
         // Find single package use id
         app.get('/packages/:id', async (req, res) => {
             const id = req.params.id;
-            const query = { _id: ObjectId(id) }
+            const query = { _id: ObjectId(id) };
             const package = await packageCollection.findOne(query);
             res.send(package);
         });
@@ -50,6 +50,15 @@ async function server() {
             const cursor = bookedCollection.find({});
             const bookedPackages = await cursor.toArray();
             res.send(bookedPackages);
+        })
+
+        // My Orders DELETE API
+        app.delete('/booked/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await bookedCollection.deleteOne(query);
+            console.log(result)
+            // res.json(result);
         })
 
         // Add package POST API
