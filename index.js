@@ -56,7 +56,7 @@ async function server() {
         app.put('/booked/:id', async (req, res) => {
             const id = req.params.id;
             const updateStatus = req.body.status;
-            const filter = { _id: id };
+            const filter = { unique_id: id };
             const options = { upsert: true };
             const updateDoc = {
                 $set: {
@@ -70,8 +70,10 @@ async function server() {
         // My Orders DELETE API
         app.delete('/booked/:id', async (req, res) => {
             const id = req.params.id;
-            const query = { _id: id };
+            console.log(id)
+            const query = { unique_id: id };
             const result = await bookedCollection.deleteOne(query);
+            console.log(result)
             res.json(result);
         })
 
