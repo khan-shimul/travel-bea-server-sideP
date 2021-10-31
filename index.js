@@ -52,6 +52,21 @@ async function server() {
             res.send(bookedPackages);
         })
 
+        // UPDATE API
+        app.put('/booked/:id', async (req, res) => {
+            const id = req.params.id;
+            const updateStatus = req.body.status;
+            const filter = { _id: id };
+            const options = { upsert: true };
+            const updateDoc = {
+                $set: {
+                    status: updateStatus
+                },
+            };
+            const result = await bookedCollection.updateOne(filter, updateDoc, options);
+            res.json(result);
+        })
+
         // My Orders DELETE API
         app.delete('/booked/:id', async (req, res) => {
             const id = req.params.id;
