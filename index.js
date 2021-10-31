@@ -70,10 +70,8 @@ async function server() {
         // My Orders DELETE API
         app.delete('/booked/:id', async (req, res) => {
             const id = req.params.id;
-            console.log(id)
             const query = { unique_id: id };
             const result = await bookedCollection.deleteOne(query);
-            console.log(result)
             res.json(result);
         })
 
